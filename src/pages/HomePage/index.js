@@ -11,8 +11,8 @@ export const HomePage = () => {
         <Header title={"Ordinal Inscription Lookup"} />
         <div className={styles.pageContainer}>
         <Label>Home Page</Label>
-        <Input></Input>
-        <Button>Look up</Button>
+        <Input className={styles.button}></Input>
+        <Button className={styles.button}>Look up</Button>
         </div>
     </>
 }

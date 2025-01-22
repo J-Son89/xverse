@@ -1,9 +1,8 @@
 .inputContainer {
-    /* z-index: 2;
-    height: 5.5rem;
-    width: 100%;
-    margin: 0 auto;
-    border-bottom: 1px solid white;
-    flex-direction: column;
-    align-items: flex-end; */
-  }
+  width: 100%;
+}
+
+.input {
+  margin: 0;
+  width: -webkit-fill-available;
+}

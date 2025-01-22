@@ -1,2 +1,4 @@
 import styles from './index.module.css'
-export const Button = (props) => <button {...props} className={styles.button} />;
+import cx from "classnames";
+
+export const Button = ({className, ...props}) => <button {...props} className={cx(styles.button, className)} />
