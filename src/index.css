@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Monserrat";
+  src: url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap'); /* IE9 Compat Modes */
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--primary-color);
+  background-color: var(--black);
 
 }
 
@@ -15,5 +20,10 @@ code {
 }
 
 :root {
-  --primary-color: #1A1A1A;
+  --black: #1A1A1A;
+  --white: #FFFFFF;
+  --primary-color: #465AE9;
 }
+
+
+

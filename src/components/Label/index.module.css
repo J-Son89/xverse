@@ -1,0 +1,7 @@
+.labelContainer {
+    color: var(--white);
+    font-size: 14px;
+    font-family: Monserrat;
+    margin:0;
+    height: fit-content;
+  }
