@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
-export const NFTImage = ({ data, contentType }) => {
+export const NFTImage = ({ data, contentType="" }) => {
   const [content, setContent] = useState(null);
   const [formattedContent, setFormattedContent] = useState(null);
   const [error, setError] = useState(null);
@@ -14,12 +14,11 @@ export const NFTImage = ({ data, contentType }) => {
           const text = await response.text();
           setContent(text);
 
-          // Try to parse JSON and format it, fallback to raw text if parsing fails
           try {
             const parsedJson = JSON.parse(text);
-            setFormattedContent(JSON.stringify(parsedJson, null, 2)); // Prettify JSON
+            setFormattedContent(JSON.stringify(parsedJson, null, 2));
           } catch {
-            setFormattedContent(text); // If not JSON, just use the raw text
+            setFormattedContent(text);
           }
         } catch (err) {
           setError(err.message);
@@ -27,13 +26,16 @@ export const NFTImage = ({ data, contentType }) => {
       };
 
       fetchTextContent();
+    } else if (contentType.startsWith('image')) {
+      setContent(data); // For images (GIFs, JPEG, PNG), use the data as-is
     }
   }, [data, contentType]);
 
+  if (error) {
+    return <div className={styles.error}>Error: {error}</div>;
+  }
+
   if (contentType.startsWith('text')) {
-    if (error) {
-      return <div className={styles.error}>Error: {error}</div>;
-    }
     if (!formattedContent) {
       return <div className={styles.placeholder}>Loading content...</div>;
     }
@@ -45,7 +47,14 @@ export const NFTImage = ({ data, contentType }) => {
   }
 
   if (contentType.startsWith('image')) {
-    return <img src={data} alt="NFT Content" className={styles.image} />;
+    return (
+      <img
+        src={content}
+        alt="NFT Content"
+        className={styles.image}
+        loading="lazy" 
+      />
+    );
   }
 
   return <div className={styles.unsupported}>Unsupported content type</div>;
