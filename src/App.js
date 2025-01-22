@@ -11,7 +11,7 @@ function App() {
         <AppStateProvider>
           <Routes>
             <Route path="" element={<HomePage />} />
-            <Route path="nftPage" element={<NFTPage />} />
+            <Route path="/nftPage/:id" element={<NFTPage />} />
           </Routes>
         </AppStateProvider>
       </Router>

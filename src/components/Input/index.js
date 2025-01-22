@@ -1,7 +1,7 @@
 import styles from './index.module.css';
 import cx from 'classnames';
 
-export const Input = ({ onChange, placeholder="placeholder", value, label, type = "text", className }) => (
+export const Input = ({ onChange, placeholder="insert Address", value, label, type = "text", className }) => (
   <div className={styles.inputContainer}>
     <input
       onChange={onChange}

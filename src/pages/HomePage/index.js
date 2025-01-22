@@ -9,11 +9,18 @@ import { useState } from 'react'
 import { fetchOrdinalUtxos } from '../../api'
 import { ListItem } from '../../components/ListItem'
 import { get } from 'lodash'
+import { useNavigate } from 'react-router-dom';
 
 export const HomePage = () => {
-    const state = useAppState()
+    const navigate = useNavigate();
 
-    const [address, setAddress] = useState("bc1pe6y27ey6gzh6p0j250kz23zra7xn89703pvmtzx239zzstg47j3s3vdvvs")
+    const navigateToNFT = (id) => {
+        navigate(`/nftPage/${id}`);
+      };
+
+      
+    const {address, setAddress} = useAppState()
+
     const [isSearching, setSearching] = useState("")
     const [ordinalUtxos, setOrdinalUtxos] = useState(null)
 
@@ -36,7 +43,7 @@ export const HomePage = () => {
         <Header title={"Ordinal Inscription Lookup"} />
         <div className={styles.pageContainer}>
             <Label>Home Page</Label>
-            <Input onChange={e => setAddress(e.target.value)} className={styles.button} value={address}></Input>
+            <Input onChange={e => setAddress(e.target.value)} className={styles.button} value={address || "bc1pe6y27ey6gzh6p0j250kz23zra7xn89703pvmtzx239zzstg47j3s3vdvvs"}></Input>
             <Button disabled={isSearching || address === ""} onClick={lookUpAddress} className={styles.button}>Look up</Button>
             {ordinalUtxos !== null && <Label>Results</Label>}
             {Array.isArray(ordinalUtxos) && ordinalUtxos.length
@@ -46,10 +53,7 @@ export const HomePage = () => {
 
                     return <ListItem key={inscriptionId} title={
                         "Inscription " + first_chars
-                    } onClick={() => {
-                        console.log()
-
-                    }}></ListItem>
+                    } onClick={() => navigateToNFT(inscriptionId)}></ListItem>
                 })}
         </div>
     </>
