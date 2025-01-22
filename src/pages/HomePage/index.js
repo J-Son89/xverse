@@ -1,4 +1,3 @@
-
 import { Header } from '../../components/Header'
 import styles from './index.module.css'
 import { Label } from '../../components/Label'
