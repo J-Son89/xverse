@@ -6,8 +6,8 @@ and then
 
 ## Home Page
 
-![Example Image](https://raw.githubusercontent.com/J-Son89/xverse/main/public/images/Home Page.png.jpg)
+<img src="https://raw.githubusercontent.com/J-Son89/xverse/main/public/Home%20Page.png" height="400px" />
 
 ## NFT Page
+<img src="https://raw.githubusercontent.com/J-Son89/xverse/main/public/NFT%20Page.png" height="400px" />
 
-![Example Image](https://raw.githubusercontent.com/J-Son89/xverse/main/public/images/NFT Page.png.jpg)
