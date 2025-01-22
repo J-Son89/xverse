@@ -11,7 +11,7 @@ const BackButton = () => {
   };
 
   return (
-    <button onClick={handleGoBack} style={styles.backButton}>
+    <button onClick={handleGoBack} className={styles.backButton}>
       <span className={styles.arrow}>&larr;</span>
     </button>
   );

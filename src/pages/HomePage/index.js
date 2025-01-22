@@ -28,7 +28,6 @@ export const HomePage = () => {
         try {
             const ordinals = await fetchOrdinalUtxos(address);
             setOrdinalUtxos(ordinals)
-            console.log(ordinals);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -41,8 +40,9 @@ export const HomePage = () => {
     return <>
         <Header title={"Ordinal Inscription Lookup"} />
         <div className={styles.pageContainer}>
-            <Label>Home Page</Label>
-            <Input onChange={e => setAddress(e.target.value)} className={styles.button} value={address || "bc1pe6y27ey6gzh6p0j250kz23zra7xn89703pvmtzx239zzstg47j3s3vdvvs"}></Input>
+            <Label>Owner Bitcoin Address</Label>
+            <span style={{ "marginTop": "10px" }}></span>
+            <Input onChange={e => setAddress(e.target.value)} className={styles.input} value={address }></Input>
             <Button disabled={isSearching || address === ""} onClick={lookUpAddress} className={styles.button}>Look up</Button>
             {ordinalUtxos !== null && <Label>Results</Label>}
             {Array.isArray(ordinalUtxos) && ordinalUtxos.length

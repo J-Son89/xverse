@@ -1,0 +1,50 @@
+.image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  height: 375px;
+  width: 100%;
+}
+
+.textContent {
+  background-color: var(--white);
+  color: var(--highlight-color);
+  font-family: 'Monserrat';
+  padding: 16px;
+  border-radius: 4px;
+  overflow: auto;
+  height: 375px;
+  width: 100%;
+}
+
+.unsupported {
+  color: var(--error);
+  font-size: 14px;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.placeholder {
+  color: var(--highlight-color);
+  font-size: 14px;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.error {
+  color: var(--error);
+  font-size: 14px;
+  text-align: center;
+}
+
+.textContent {
+  background-color: var(--white);
+  color: var(--highlight-color);
+  font-family: 'Monserrat';
+  padding: 16px;
+  border-radius: 8px;
+  overflow: auto;
+  max-height: 400px; 
+  white-space: pre-wrap; 
+}
