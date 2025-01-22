@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
-export const NFTImage = ({ data, contentType="" }) => {
+export const NFTImage = ({ data, contentType = "" }) => {
+  console.log(contentType)
   const [content, setContent] = useState(null);
   const [formattedContent, setFormattedContent] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (contentType.startsWith('text')) {
+    if (typeof contentType == "string" && contentType.startsWith('text')) {
       const fetchTextContent = async () => {
         try {
           const response = await fetch(data);
@@ -26,8 +27,20 @@ export const NFTImage = ({ data, contentType="" }) => {
       };
 
       fetchTextContent();
-    } else if (contentType.startsWith('image')) {
-      setContent(data); // For images (GIFs, JPEG, PNG), use the data as-is
+    } else if (contentType === 'text/html') {
+      const fetchHTMLContent = async () => {
+        try {
+          const response = await fetch(data);
+          const html = await response.text();
+          setContent(html);
+        } catch (err) {
+          setError(err.message);
+        }
+      };
+
+      fetchHTMLContent();
+    } else if (typeof contentType == "string" && contentType.startsWith('image')) {
+      setContent(data);
     }
   }, [data, contentType]);
 
@@ -35,7 +48,19 @@ export const NFTImage = ({ data, contentType="" }) => {
     return <div className={styles.error}>Error: {error}</div>;
   }
 
-  if (contentType.startsWith('text')) {
+  if (contentType === 'text/html') {
+    if (!content) {
+      return <div className={styles.placeholder}>Loading HTML...</div>;
+    }
+    return (
+      <div
+        className={styles.htmlContent}
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+    );
+  }
+
+  if (typeof contentType == "string" && contentType.startsWith('text')) {
     if (!formattedContent) {
       return <div className={styles.placeholder}>Loading content...</div>;
     }
@@ -46,13 +71,13 @@ export const NFTImage = ({ data, contentType="" }) => {
     );
   }
 
-  if (contentType.startsWith('image')) {
+  if (typeof contentType == "string" && contentType.startsWith('image')) {
     return (
       <img
         src={content}
         alt="NFT Content"
         className={styles.image}
-        loading="lazy" 
+        loading="lazy"
       />
     );
   }

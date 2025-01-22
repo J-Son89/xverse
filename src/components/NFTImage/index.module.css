@@ -4,7 +4,7 @@
   object-fit: cover;
   border-radius: 8px;
   height: 375px;
-  width: 100%;
+  width: -webkit-fill-available;
 }
 
 .textContent {
@@ -15,7 +15,7 @@
   border-radius: 4px;
   overflow: auto;
   height: 375px;
-  width: 100%;
+  width: -webkit-fill-available;
 }
 
 .unsupported {
@@ -38,13 +38,3 @@
   text-align: center;
 }
 
-.textContent {
-  background-color: var(--white);
-  color: var(--highlight-color);
-  font-family: 'Monserrat';
-  padding: 16px;
-  border-radius: 8px;
-  overflow: auto;
-  max-height: 400px; 
-  white-space: pre-wrap; 
-}
