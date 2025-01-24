@@ -1,3 +1,3 @@
-import { Label } from '../Label'
+import {Label} from '../Label';
 
-export const Loader = () => <Label>... Loading</Label>
+export const Loader = () => <Label>... Loading</Label>;

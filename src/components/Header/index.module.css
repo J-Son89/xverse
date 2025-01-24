@@ -1,43 +1,41 @@
 .headerContainer {
-    z-index: 2;
-    height: 4rem;
-    width: 100%;
-    margin: 0 auto;
-    flex-direction: column;
-    align-items: flex-end;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
+  z-index: 2;
+  height: 4rem;
+  width: 100%;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 
+.backButton {
+  position: absolute;
+  left: 12px;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: var(--black);
+  transition: background-color 0.3s ease;
+}
 
-  .backButton {
-    position: absolute;
-    left: 12px;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px; 
-    background-color: var(--black);
-    transition: background-color 0.3s ease;
-  }
-  
-  .backButton:hover {
-    background-color: #333; 
-  }
-  
-  .backButton:active {
-    background-color: #444; 
-  }
-  
-  .arrow {
-    font-size: 20px;
-    color: var(--white); 
-    font-weight: bold;
-    transform: rotate(0); 
-  }
-  
+.backButton:hover {
+  background-color: #333;
+}
+
+.backButton:active {
+  background-color: #444;
+}
+
+.arrow {
+  font-size: 20px;
+  color: var(--white);
+  font-weight: bold;
+  transform: rotate(0);
+}

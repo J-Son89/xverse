@@ -1,12 +1,12 @@
 import React from 'react';
 
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { HomePage } from './pages/HomePage'
-import { NFTPage } from './pages/NFTPage'
-import { AppStateProvider } from './appState'
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {HomePage} from './pages/HomePage';
+import {NFTPage} from './pages/NFTPage';
+import {AppStateProvider} from './appState';
 
-const App: React.FC= () => {
+const App: React.FC = () => {
   return (
     <div className="App">
       <Router>
@@ -19,6 +19,6 @@ const App: React.FC= () => {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

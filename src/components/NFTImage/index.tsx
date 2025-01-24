@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './index.module.css';
 
-export const NFTImage = ({ data, contentType = "" }) => {
-  console.log(contentType)
+export const NFTImage = ({data, contentType = ''}) => {
+  console.log(contentType);
   const [content, setContent] = useState(null);
   const [formattedContent, setFormattedContent] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (typeof contentType == "string" && contentType.startsWith('text')) {
+    if (typeof contentType == 'string' && contentType.startsWith('text')) {
       const fetchTextContent = async () => {
         try {
           const response = await fetch(data);
@@ -39,7 +39,10 @@ export const NFTImage = ({ data, contentType = "" }) => {
       };
 
       fetchHTMLContent();
-    } else if (typeof contentType == "string" && contentType.startsWith('image')) {
+    } else if (
+      typeof contentType == 'string' &&
+      contentType.startsWith('image')
+    ) {
       setContent(data);
     }
   }, [data, contentType]);
@@ -55,23 +58,19 @@ export const NFTImage = ({ data, contentType = "" }) => {
     return (
       <div
         className={styles.htmlContent}
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{__html: content}}
       />
     );
   }
 
-  if (typeof contentType == "string" && contentType.startsWith('text')) {
+  if (typeof contentType == 'string' && contentType.startsWith('text')) {
     if (!formattedContent) {
       return <div className={styles.placeholder}>Loading content...</div>;
     }
-    return (
-      <pre className={styles.textContent}>
-        {formattedContent}
-      </pre>
-    );
+    return <pre className={styles.textContent}>{formattedContent}</pre>;
   }
 
-  if (typeof contentType == "string" && contentType.startsWith('image')) {
+  if (typeof contentType == 'string' && contentType.startsWith('image')) {
     return (
       <img
         src={content}

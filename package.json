@@ -26,8 +26,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src --max-warnings=0 && yarn check-types",
-    "lint:fix": "eslint src --fix",
-    "check-types": "tsc --noemit"
+    "lint:fix": "eslint src --fix ",
+    "check-types": "tsc --noemit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "eslintConfig": {
     "extends": [
@@ -50,7 +52,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.21.0",
     "@typescript-eslint/parser": "^8.21.0",
-    "eslint": "^9.18.0",
+    "eslint": "^8.44.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-import": "^2.31.0",

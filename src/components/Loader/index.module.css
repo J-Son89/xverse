@@ -1,6 +1,6 @@
 .divider {
-    background-color:var(--highlight-color);
-    height: 2px; 
-    width: 100%;
-    margin: 16px 0; 
-  }
+  background-color: var(--highlight-color);
+  height: 2px;
+  width: 100%;
+  margin: 16px 0;
+}
