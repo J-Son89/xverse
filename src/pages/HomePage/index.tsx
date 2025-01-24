@@ -1,34 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Header } from '../../components/Header';
 import styles from './index.module.css';
 import { Label } from '../../components/Label';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
-import { useAppState } from '../../appState';
 import { fetchOrdinalUtxos } from '../../api';
 import { ListItem } from '../../components/ListItem';
 import { get } from 'lodash';
-import { useNavigate } from 'react-router-dom';
-import { OrdinalUtxo } from '../../types/ordinals'
+import { OrdinalUtxo } from '../../types/ordinals';
 
 export const HomePage = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const navigateToNFT = (id?: string) => {
-    navigate(`/nftPage/${id}`);
-  };
+  const addressFromParams = searchParams.get('address') || '';
+  const pageFromParams = parseInt(searchParams.get('page') || '0', 10);
 
-  //@ts-ignore 
-  const { address, setAddress } = useAppState();
+  const [address, setAddress] = useState(addressFromParams);
   const [isSearching, setSearching] = useState(false);
   const [ordinalUtxos, setOrdinalUtxos] = useState<OrdinalUtxo[] | null>(null);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(pageFromParams);
 
   const itemsPerPage = 8;
 
   const lookUpAddress = async () => {
     setSearching(true);
+
+    setSearchParams({ address });
+
     try {
       const ordinals = await fetchOrdinalUtxos(address);
       setOrdinalUtxos(ordinals);
@@ -44,10 +45,18 @@ export const HomePage = () => {
   const offset = currentPage * itemsPerPage;
   const currentItems = ordinalUtxos?.slice(offset, offset + itemsPerPage);
 
-  //@ts-ignore 
-  const handlePageChange = selectedPage => {
-    setCurrentPage(selectedPage.selected);
+  const handlePageChange = (selectedPage: { selected: number }) => {
+    const newPage = selectedPage.selected;
+    setCurrentPage(newPage);
+
+    setSearchParams({ address, page: String(newPage) });
   };
+
+  useEffect(() => {
+    if (addressFromParams) {
+      lookUpAddress();
+    }
+  }, [addressFromParams]);
 
   return (
     <>
@@ -64,7 +73,9 @@ export const HomePage = () => {
           disabled={isSearching || address === ''}
           onClick={lookUpAddress}
           className={styles.button}
-        >Look up</Button>
+        >
+          Look up
+        </Button>
 
         {ordinalUtxos !== null && <Label>Results</Label>}
 
@@ -77,7 +88,7 @@ export const HomePage = () => {
               <ListItem
                 key={inscriptionId}
                 title={`Inscription ${firstChars}`}
-                onClick={() => navigateToNFT(inscriptionId)}
+                onClick={() => navigate(`/nftPage?id=${inscriptionId}&address=${address}`)}
               />
             );
           })}

@@ -1,42 +1,46 @@
 //@ts-nocheck
-import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {fetchInscriptionDetails, fetchInscriptionContent} from '../../api';
-import {useAppState} from '../../appState';
-import {Header} from '../../components/Header';
-import {Input} from '../../components/Input';
-import {Divider} from '../../components/Divider';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { fetchInscriptionDetails, fetchInscriptionContent } from '../../api';
+import { Header } from '../../components/Header';
+import { Input } from '../../components/Input';
+import { Divider } from '../../components/Divider';
 import styles from './index.module.css';
-import {Label} from '../../components/Label';
-import {NFTImage} from '../../components/NFTImage';
-import {Loader} from '../../components/Loader';
+import { Label } from '../../components/Label';
+import { NFTImage } from '../../components/NFTImage';
+import { Loader } from '../../components/Loader';
 
 export const NFTPage = () => {
-  const {id} = useParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const address = searchParams.get('address');
+  const id = searchParams.get('id');
+
   const [nftData, setNftData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  //@ts-ignore
-  const {address} = useAppState();
   const [imageData, setImageData] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [_imageError, setImageError] = useState(null);
 
   useEffect(() => {
+    if (!address) {
+      setError('Address not provided in the URL.');
+      setLoading(false);
+      return;
+    }
+
     const fetchNFTDetails = async () => {
       try {
         setLoading(true);
-
         const data = await fetchInscriptionDetails(address, id);
-
         setNftData(data);
       } catch (err) {
         if (err instanceof Error) {
-          setError(err.message); 
+          setError(err.message);
         } else {
           setError('An unknown error occurred');
         }
-        setLoading(false)
       } finally {
         setLoading(false);
       }
@@ -62,14 +66,6 @@ export const NFTPage = () => {
     fetchNFTImage();
   }, [id]);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
   return (
     <>
       <Header title={'Details'} backButton />
@@ -93,15 +89,15 @@ export const NFTPage = () => {
             <Divider />
 
             <Label size="small">Inscription ID</Label>
-            <Label> </Label>
-            <span style={{marginTop: '24px'}}></span>
+            <Label>{id}</Label>
+            <span style={{ marginTop: '24px' }}></span>
 
             <Label size="small">Owner Address</Label>
             <Label>{nftData.address}</Label>
 
-            <span style={{marginTop: '48px'}}></span>
+            <span style={{ marginTop: '48px' }}></span>
             <Label size="large">Attributes</Label>
-            <span style={{marginTop: '32px'}}></span>
+            <span style={{ marginTop: '32px' }}></span>
 
             <Label size="small">Output Value</Label>
             <Input
