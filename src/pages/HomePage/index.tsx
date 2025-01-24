@@ -1,87 +1,88 @@
-import React, {useState, useEffect} from 'react';
-import ReactPaginate from 'react-paginate';
-import {useNavigate, useSearchParams} from 'react-router-dom';
-import {Header} from '../../components/Header';
+import React, { useState, useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Header } from '../../components/Header';
 import styles from './index.module.css';
-import {Label} from '../../components/Label';
-import {Input} from '../../components/Input';
-import {Button} from '../../components/Button';
-import {fetchOrdinalUtxos} from '../../api';
-import {ListItem} from '../../components/ListItem';
-import {get} from 'lodash';
-import {OrdinalUtxo} from '../../types/ordinals';
+import { Label } from '../../components/Label';
+import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
+import { useQuery } from '@tanstack/react-query';
+import { fetchOrdinalUtxos } from '../../api';
+import { ListItem } from '../../components/ListItem';
+import { get } from 'lodash';
+import cx from 'classnames';
+
+const LIMIT = 12;
 
 export const HomePage = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const addressFromParams = searchParams.get('address') || '';
-  const pageFromParams = parseInt(searchParams.get('page') || '0', 10);
+  const offsetFromParams = searchParams.get('offset') || '0';
 
   const [address, setAddress] = useState(addressFromParams);
-  const [isSearching, setSearching] = useState(false);
-  const [ordinalUtxos, setOrdinalUtxos] = useState<OrdinalUtxo[] | null>(null);
-  const [currentPage, setCurrentPage] = useState(pageFromParams);
+  const [offset, setOffset] = useState(parseInt(offsetFromParams, 10));
 
-  const itemsPerPage = 8;
+  const queryKey = useMemo(() => ['ordinalUtxos', address, offset], [address, offset]);
 
-  const lookUpAddress = async () => {
-    setSearching(true);
 
-    setSearchParams({address});
+  const { data, isLoading, isFetching, refetch } = useQuery(
+    queryKey,
+    () => fetchOrdinalUtxos(address, offset, LIMIT),
+    {
+      enabled: !!address,
+      keepPreviousData: false,
+      onSuccess: () => {
+        setSearchParams({ address, offset: offset.toString() });
+      },
+    }
+  );
 
-    try {
-      const ordinals = await fetchOrdinalUtxos(address);
-      setOrdinalUtxos(ordinals);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setTimeout(() => {
-        setSearching(false);
-      }, 1000);
+  const handleLookUp = () => {
+    if (address.trim()) {
+      setOffset(0);
+      refetch();
     }
   };
 
-  const offset = currentPage * itemsPerPage;
-  const currentItems = ordinalUtxos?.slice(offset, offset + itemsPerPage);
-
-  const handlePageChange = (selectedPage: {selected: number}) => {
-    const newPage = selectedPage.selected;
-    setCurrentPage(newPage);
-
-    setSearchParams({address, page: String(newPage)});
+  const handleLoadNext = () => {
+    setOffset((prevOffset) => prevOffset + LIMIT);
+    refetch();
   };
 
-  useEffect(() => {
-    if (addressFromParams) {
-      lookUpAddress();
-    }
-  }, [addressFromParams, lookUpAddress]);
-
+  const handleLoadPrevious = () => {
+    setOffset((prevOffset) => Math.max(0, prevOffset - LIMIT));
+    refetch();
+  };
+  console.log(offset, "OFFSET", typeof offset)
   return (
     <>
       <Header title={'Ordinal Inscription Lookup'} />
       <div className={styles.pageContainer}>
         <Label>Owner Bitcoin Address</Label>
-        <span style={{marginTop: '10px'}}></span>
+        <span style={{ marginTop: '10px' }}></span>
         <Input
-          onChange={e => setAddress(e.target.value)}
+          onChange={(e) => setAddress(e.target.value)}
           className={styles.input}
           value={address}
         />
         <Button
-          disabled={isSearching || address === ''}
-          onClick={lookUpAddress}
-          className={styles.button}
+          disabled={isFetching || address === ''}
+          onClick={handleLookUp}
+          className={cx(styles.loadMore, styles.button)}
         >
           Look up
         </Button>
 
-        {ordinalUtxos !== null && <Label>Results</Label>}
+        {isLoading && <Label>Loading...</Label>}
 
-        {Array.isArray(currentItems) &&
-          currentItems.map(r => {
+        {!isLoading && data && <Label>Results</Label>}
+
+        {!isLoading &&
+          data &&
+          data.map((r) => {
             const inscriptionId = get(r, ['inscriptions', 0, 'id']);
+            if (!inscriptionId) return null;
             const firstChars = inscriptionId.substring(0, 8);
 
             return (
@@ -95,21 +96,25 @@ export const HomePage = () => {
             );
           })}
 
-        {Array.isArray(ordinalUtxos) && ordinalUtxos.length > itemsPerPage && (
-          <ReactPaginate
-            previousLabel={'←'}
-            nextLabel={'→'}
-            pageCount={Math.ceil(ordinalUtxos.length / itemsPerPage)}
-            onPageChange={handlePageChange}
-            containerClassName={styles.paginationContainer}
-            activeClassName={styles.activePage}
-            pageClassName={styles.hidden}
-            pageLinkClassName={styles.hidden}
-            previousClassName={styles.page}
-            nextClassName={styles.page}
-            disabledClassName={styles.disabledPage}
-          />
-        )}
+        <div className={styles.paginationButtons}>
+          <Button
+            onClick={handleLoadPrevious}
+            disabled={isFetching || offset === 0}
+            buttonType="secondary"
+            className={cx(styles.previousButton, styles.button)}
+          >
+            Load Previous
+          </Button>
+
+          <Button
+            onClick={handleLoadNext}
+            disabled={isFetching || (data && data.length < LIMIT)}
+            buttonType="secondary"
+            className={cx(styles.nextButton, styles.button)}
+          >
+            {isFetching ? 'Loading...' : 'Load Next'}
+          </Button>
+        </div>
       </div>
     </>
   );

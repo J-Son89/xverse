@@ -3,7 +3,6 @@
   padding-top: 10px;
   padding-left: 16px;
   padding-right: 16px;
-  height: 90vh;
   flex-direction: column;
   align-items: baseline;
 }
@@ -45,4 +44,26 @@
 
 .hidden {
   display: none;
+}
+
+.loadMore {
+  margin-bottom: 10px;
+}
+
+.paginationButtons {
+  width: -webkit-fill-available;
+  display: flex;
+  align-items: space-between;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.previousButton {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.nextButton {
+  margin-left: 8px;
+  margin-right: 8px;
 }

@@ -23,3 +23,14 @@
   filter: brightness(0.9);
   transform: scale(0.98);
 }
+
+.secondary {
+  background-color: var(--secondary-color);
+  color: var(--highlight-color);
+}
+
+.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+}

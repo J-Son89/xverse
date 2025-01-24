@@ -8,10 +8,14 @@ export interface OrdinalUtxoResponse {
 }
 
 export async function fetchOrdinalUtxos(
-  address?: string
+  address?: string,
+  offset: number = 0,
+  limit: number = 15 
 ): Promise<OrdinalUtxo[]> {
   try {
-    const response = await fetch(`${BASE_URL}/address/${address}/ordinal-utxo`);
+    const response = await fetch(
+      `${BASE_URL}/address/${address}/ordinal-utxo?offset=${offset}&limit=${limit}`
+    );
     if (!response.ok) {
       throw new Error(`Error fetching ordinal UTXOs: ${response.statusText}`);
     }
@@ -51,7 +55,7 @@ export async function fetchInscriptionContent(inscriptionId?: string) {
         `Error fetching inscription content: ${response.statusText}`
       );
     }
-    return await response.blob(); // Returns the content as a blob (e.g., image, text).
+    return await response.blob(); 
   } catch (error) {
     console.error(error);
     throw error;
