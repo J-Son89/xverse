@@ -56,7 +56,7 @@ export const HomePage = () => {
     if (addressFromParams) {
       lookUpAddress();
     }
-  }, [addressFromParams]);
+  }, [addressFromParams, lookUpAddress]);
 
   return (
     <>

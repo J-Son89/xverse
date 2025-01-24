@@ -1,11 +1,12 @@
 .headerContainer {
   z-index: 2;
-  height: 4rem;
+  height: 3.4rem;
+  max-height: 78px;
   width: 100%;
   margin: 0 auto;
   flex-direction: column;
   align-items: flex-end;
-  padding-top: 20px;
+  padding-top: 30px;
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -1,9 +1,9 @@
 //@ts-nocheck
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { fetchInscriptionDetails, fetchInscriptionContent } from '../../api';
 import { Header } from '../../components/Header';
-import { Input } from '../../components/Input';
+import { InputLabel } from '../../components/InputLabel';
 import { Divider } from '../../components/Divider';
 import styles from './index.module.css';
 import { Label } from '../../components/Label';
@@ -11,14 +11,13 @@ import { NFTImage } from '../../components/NFTImage';
 import { Loader } from '../../components/Loader';
 
 export const NFTPage = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const address = searchParams.get('address');
   const id = searchParams.get('id');
 
   const [nftData, setNftData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [_loading, setLoading] = useState(true);
+  const [_error, setError] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [_imageError, setImageError] = useState(null);
@@ -88,11 +87,11 @@ export const NFTPage = () => {
             <Label size="large">{`Inscription ${nftData.number}`}</Label>
             <Divider />
 
-            <Label size="small">Inscription ID</Label>
+            <Label className={styles.smallLabel} size="small">Inscription ID</Label>
             <Label>{id}</Label>
             <span style={{ marginTop: '24px' }}></span>
 
-            <Label size="small">Owner Address</Label>
+            <Label className={styles.smallLabel} size="small">Owner Address</Label>
             <Label>{nftData.address}</Label>
 
             <span style={{ marginTop: '48px' }}></span>
@@ -100,39 +99,28 @@ export const NFTPage = () => {
             <span style={{ marginTop: '32px' }}></span>
 
             <Label size="small">Output Value</Label>
-            <Input
-              className={styles.input}
-              value={nftData.output}
-              readOnly
-            ></Input>
+            <InputLabel className={styles.input}>{nftData.output}
+            </InputLabel>
 
             <Label size="small">Content Type</Label>
-            <Input
-              className={styles.input}
-              value={nftData.content_type}
-              readOnly
-            ></Input>
+            <InputLabel className={styles.input}>
+              {nftData.content_type}
+            </InputLabel>
 
             <Label size="small">Content Length</Label>
-            <Input
-              className={styles.input}
-              value={nftData.content_length}
-              readOnly
-            ></Input>
+            <InputLabel className={styles.input}>
+              {nftData.content_length}
+            </InputLabel>
 
             <Label size="small">Location</Label>
-            <Input
-              className={styles.input}
-              value={nftData.location}
-              readOnly
-            ></Input>
+            <InputLabel className={styles.input}>
+              {nftData.location}
+            </InputLabel>
 
             <Label size="small">Genesis Transaction</Label>
-            <Input
-              className={styles.input}
-              value={nftData.genesis_tx_id}
-              readOnly
-            ></Input>
+            <InputLabel className={styles.input}>
+              {nftData.genesis_tx_id}
+            </InputLabel>
           </div>
         </>
       )}

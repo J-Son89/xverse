@@ -12,7 +12,7 @@ const BackButton = () => {
 
   return (
     <button onClick={handleGoBack} className={styles.backButton}>
-      <span className={styles.arrow}>&larr;</span>
+      <span className={styles.arrow}>&lt;</span>
     </button>
   );
 };

@@ -10,7 +10,8 @@
 .textContent {
   background-color: var(--white);
   color: var(--highlight-color);
-  font-family: 'Monserrat';
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
   padding: 16px;
   border-radius: 4px;
   overflow: auto;

@@ -19,5 +19,5 @@
 
 .arrow {
   font-size: 18px;
-  color: #888;
+  color: var(--white);
 }
