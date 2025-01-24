@@ -13,12 +13,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
+    "types": ["react", "node"],
     "baseUrl": "./src",
     "sourceMap": true,
     "paths": {
       "test-utils": ["./utils/test-utils"]
-    }
+    },
+    
   },
   "include": ["src"],
   "exclude": ["node_modules"]

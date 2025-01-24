@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import {fetchInscriptionDetails, fetchInscriptionContent} from '../../api';
@@ -15,6 +16,7 @@ export const NFTPage = () => {
   const [nftData, setNftData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  //@ts-ignore
   const {address} = useAppState();
   const [imageData, setImageData] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
@@ -29,8 +31,12 @@ export const NFTPage = () => {
 
         setNftData(data);
       } catch (err) {
-        setError(err.message);
-        setLoading(false);
+        if (err instanceof Error) {
+          setError(err.message); 
+        } else {
+          setError('An unknown error occurred');
+        }
+        setLoading(false)
       } finally {
         setLoading(false);
       }
@@ -83,7 +89,7 @@ export const NFTPage = () => {
           )}
 
           <div className={styles.pageContainer}>
-            <Label size="large">Inscription {nftData.number}</Label>
+            <Label size="large">{`Inscription ${nftData.number}`}</Label>
             <Divider />
 
             <Label size="small">Inscription ID</Label>
@@ -91,7 +97,7 @@ export const NFTPage = () => {
             <span style={{marginTop: '24px'}}></span>
 
             <Label size="small">Owner Address</Label>
-            <Label> {nftData.address}</Label>
+            <Label>{nftData.address}</Label>
 
             <span style={{marginTop: '48px'}}></span>
             <Label size="large">Attributes</Label>

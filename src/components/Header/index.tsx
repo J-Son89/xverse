@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './index.module.css';
 import {Label} from '../Label';
 import {useNavigate} from 'react-router-dom';
@@ -16,7 +17,12 @@ const BackButton = () => {
   );
 };
 
-export const Header = ({title, backButton}) => {
+type HeaderType = {
+  title: String;
+  backButton?: boolean;
+};
+
+export const Header: React.FC<HeaderType>  = ({title, backButton}) => {
   return (
     <div className={styles.headerContainer}>
       {backButton && <BackButton />}

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, {useEffect, useState} from 'react';
 import styles from './index.module.css';
 
@@ -70,7 +71,7 @@ export const NFTImage = ({data, contentType = ''}) => {
     return <pre className={styles.textContent}>{formattedContent}</pre>;
   }
 
-  if (typeof contentType == 'string' && contentType.startsWith('image')) {
+  if (typeof contentType == 'string' && contentType.startsWith('image') && content!== null) {
     return (
       <img
         src={content}

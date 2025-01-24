@@ -1,26 +1,28 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import {Header} from '../../components/Header';
+import { Header } from '../../components/Header';
 import styles from './index.module.css';
-import {Label} from '../../components/Label';
-import {Input} from '../../components/Input';
-import {Button} from '../../components/Button';
-import {useAppState} from '../../appState';
-import {fetchOrdinalUtxos} from '../../api';
-import {ListItem} from '../../components/ListItem';
-import {get} from 'lodash';
-import {useNavigate} from 'react-router-dom';
+import { Label } from '../../components/Label';
+import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
+import { useAppState } from '../../appState';
+import { fetchOrdinalUtxos } from '../../api';
+import { ListItem } from '../../components/ListItem';
+import { get } from 'lodash';
+import { useNavigate } from 'react-router-dom';
+import { OrdinalUtxo } from '../../types/ordinals'
 
 export const HomePage = () => {
   const navigate = useNavigate();
 
-  const navigateToNFT = id => {
+  const navigateToNFT = (id?: string) => {
     navigate(`/nftPage/${id}`);
   };
 
-  const {address, setAddress} = useAppState();
+  //@ts-ignore 
+  const { address, setAddress } = useAppState();
   const [isSearching, setSearching] = useState(false);
-  const [ordinalUtxos, setOrdinalUtxos] = useState(null);
+  const [ordinalUtxos, setOrdinalUtxos] = useState<OrdinalUtxo[] | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
   const itemsPerPage = 8;
@@ -42,6 +44,7 @@ export const HomePage = () => {
   const offset = currentPage * itemsPerPage;
   const currentItems = ordinalUtxos?.slice(offset, offset + itemsPerPage);
 
+  //@ts-ignore 
   const handlePageChange = selectedPage => {
     setCurrentPage(selectedPage.selected);
   };
@@ -51,7 +54,7 @@ export const HomePage = () => {
       <Header title={'Ordinal Inscription Lookup'} />
       <div className={styles.pageContainer}>
         <Label>Owner Bitcoin Address</Label>
-        <span style={{marginTop: '10px'}}></span>
+        <span style={{ marginTop: '10px' }}></span>
         <Input
           onChange={e => setAddress(e.target.value)}
           className={styles.input}
@@ -61,9 +64,7 @@ export const HomePage = () => {
           disabled={isSearching || address === ''}
           onClick={lookUpAddress}
           className={styles.button}
-        >
-          Look up
-        </Button>
+        >Look up</Button>
 
         {ordinalUtxos !== null && <Label>Results</Label>}
 

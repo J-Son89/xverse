@@ -1,11 +1,20 @@
+import React from 'react';
 import styles from './index.module.css';
 import cx from 'classnames';
 
-export const Input = ({
+type InputType = {
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  placeholder?: string;
+  value?: string;
+  className?: string;
+  readOnly?: boolean;
+  type?: 'text' | 'password'
+};
+
+export const Input: React.FC<InputType> = ({
   onChange,
   placeholder = 'insert Address',
   value,
-  label,
   type = 'text',
   className,
   readOnly,
