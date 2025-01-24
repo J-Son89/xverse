@@ -8,7 +8,7 @@ type InputType = {
   value?: string;
   className?: string;
   readOnly?: boolean;
-  type?: 'text' | 'password'
+  type?: 'text' | 'password';
 };
 
 export const Input: React.FC<InputType> = ({

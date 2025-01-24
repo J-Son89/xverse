@@ -7,6 +7,6 @@ type ButtonType = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   backButton?: boolean;
 };
 
-export const Button: React.FC<ButtonType> = ({ className, ...props }) => (
+export const Button: React.FC<ButtonType> = ({className, ...props}) => (
   <button {...props} className={cx(styles.button, className)} />
 );

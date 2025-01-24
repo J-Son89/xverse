@@ -8,7 +8,7 @@ type LabelType = {
   className?: string;
 };
 
-export const Label: React.FC<LabelType>  = ({children, size, className}) => (
+export const Label: React.FC<LabelType> = ({children, size, className}) => (
   <span
     className={cx(className, styles.labelContainer, {
       [styles.large]: size === 'large',

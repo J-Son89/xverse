@@ -22,7 +22,7 @@ type HeaderType = {
   backButton?: boolean;
 };
 
-export const Header: React.FC<HeaderType>  = ({title, backButton}) => {
+export const Header: React.FC<HeaderType> = ({title, backButton}) => {
   return (
     <div className={styles.headerContainer}>
       {backButton && <BackButton />}

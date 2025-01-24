@@ -71,7 +71,11 @@ export const NFTImage = ({data, contentType = ''}) => {
     return <pre className={styles.textContent}>{formattedContent}</pre>;
   }
 
-  if (typeof contentType == 'string' && contentType.startsWith('image') && content!== null) {
+  if (
+    typeof contentType == 'string' &&
+    contentType.startsWith('image') &&
+    content !== null
+  ) {
     return (
       <img
         src={content}

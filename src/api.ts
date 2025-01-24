@@ -1,4 +1,4 @@
-import { OrdinalUtxo } from './types/ordinals'
+import {OrdinalUtxo} from './types/ordinals';
 
 const BASE_URL = 'https://api-3.xverse.app/v1';
 const ORD_CONTENT_URL = 'https://ord.xverse.app/content';
@@ -7,7 +7,9 @@ export interface OrdinalUtxoResponse {
   results: OrdinalUtxo[];
 }
 
-export async function fetchOrdinalUtxos(address?: string): Promise<OrdinalUtxo[]> {
+export async function fetchOrdinalUtxos(
+  address?: string
+): Promise<OrdinalUtxo[]> {
   try {
     const response = await fetch(`${BASE_URL}/address/${address}/ordinal-utxo`);
     if (!response.ok) {
@@ -21,7 +23,10 @@ export async function fetchOrdinalUtxos(address?: string): Promise<OrdinalUtxo[]
   }
 }
 
-export async function fetchInscriptionDetails(address?: string, inscriptionId?: string) {
+export async function fetchInscriptionDetails(
+  address?: string,
+  inscriptionId?: string
+) {
   try {
     const response = await fetch(
       `${BASE_URL}/address/${address}/ordinals/inscriptions/${inscriptionId}`

@@ -7,11 +7,6 @@ type InputLabelType = {
   className?: string;
 };
 
-export const InputLabel: React.FC<InputLabelType> = ({
-  children,
-  className
-}) => (
-  <div className={cx(className, styles.inputContainer)}>
-    {children}
-  </div>
+export const InputLabel: React.FC<InputLabelType> = ({children, className}) => (
+  <div className={cx(className, styles.inputContainer)}>{children}</div>
 );

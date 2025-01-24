@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactPaginate from 'react-paginate';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Header } from '../../components/Header';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+import {Header} from '../../components/Header';
 import styles from './index.module.css';
-import { Label } from '../../components/Label';
-import { Input } from '../../components/Input';
-import { Button } from '../../components/Button';
-import { fetchOrdinalUtxos } from '../../api';
-import { ListItem } from '../../components/ListItem';
-import { get } from 'lodash';
-import { OrdinalUtxo } from '../../types/ordinals';
+import {Label} from '../../components/Label';
+import {Input} from '../../components/Input';
+import {Button} from '../../components/Button';
+import {fetchOrdinalUtxos} from '../../api';
+import {ListItem} from '../../components/ListItem';
+import {get} from 'lodash';
+import {OrdinalUtxo} from '../../types/ordinals';
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ export const HomePage = () => {
   const lookUpAddress = async () => {
     setSearching(true);
 
-    setSearchParams({ address });
+    setSearchParams({address});
 
     try {
       const ordinals = await fetchOrdinalUtxos(address);
@@ -45,11 +45,11 @@ export const HomePage = () => {
   const offset = currentPage * itemsPerPage;
   const currentItems = ordinalUtxos?.slice(offset, offset + itemsPerPage);
 
-  const handlePageChange = (selectedPage: { selected: number }) => {
+  const handlePageChange = (selectedPage: {selected: number}) => {
     const newPage = selectedPage.selected;
     setCurrentPage(newPage);
 
-    setSearchParams({ address, page: String(newPage) });
+    setSearchParams({address, page: String(newPage)});
   };
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const HomePage = () => {
       <Header title={'Ordinal Inscription Lookup'} />
       <div className={styles.pageContainer}>
         <Label>Owner Bitcoin Address</Label>
-        <span style={{ marginTop: '10px' }}></span>
+        <span style={{marginTop: '10px'}}></span>
         <Input
           onChange={e => setAddress(e.target.value)}
           className={styles.input}
@@ -88,7 +88,9 @@ export const HomePage = () => {
               <ListItem
                 key={inscriptionId}
                 title={`Inscription ${firstChars}`}
-                onClick={() => navigate(`/nftPage?id=${inscriptionId}&address=${address}`)}
+                onClick={() =>
+                  navigate(`/nftPage?id=${inscriptionId}&address=${address}`)
+                }
               />
             );
           })}

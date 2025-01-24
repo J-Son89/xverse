@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './index.module.css';
-import { Label } from '../Label';
+import {Label} from '../Label';
 
 type ListItemType = {
   title: String;
   onClick: React.MouseEventHandler<HTMLDivElement>;
 };
 
-export const ListItem: React.FC<ListItemType> = ({ title, onClick }) => {
+export const ListItem: React.FC<ListItemType> = ({title, onClick}) => {
   return (
     <div
       className={styles.listItem}

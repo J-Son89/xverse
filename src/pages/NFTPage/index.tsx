@@ -1,14 +1,14 @@
 //@ts-nocheck
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { fetchInscriptionDetails, fetchInscriptionContent } from '../../api';
-import { Header } from '../../components/Header';
-import { InputLabel } from '../../components/InputLabel';
-import { Divider } from '../../components/Divider';
+import React, {useEffect, useState} from 'react';
+import {useSearchParams} from 'react-router-dom';
+import {fetchInscriptionDetails, fetchInscriptionContent} from '../../api';
+import {Header} from '../../components/Header';
+import {InputLabel} from '../../components/InputLabel';
+import {Divider} from '../../components/Divider';
 import styles from './index.module.css';
-import { Label } from '../../components/Label';
-import { NFTImage } from '../../components/NFTImage';
-import { Loader } from '../../components/Loader';
+import {Label} from '../../components/Label';
+import {NFTImage} from '../../components/NFTImage';
+import {Loader} from '../../components/Loader';
 
 export const NFTPage = () => {
   const [searchParams] = useSearchParams();
@@ -87,20 +87,23 @@ export const NFTPage = () => {
             <Label size="large">{`Inscription ${nftData.number}`}</Label>
             <Divider />
 
-            <Label className={styles.smallLabel} size="small">Inscription ID</Label>
+            <Label className={styles.smallLabel} size="small">
+              Inscription ID
+            </Label>
             <Label>{id}</Label>
-            <span style={{ marginTop: '24px' }}></span>
+            <span style={{marginTop: '24px'}}></span>
 
-            <Label className={styles.smallLabel} size="small">Owner Address</Label>
+            <Label className={styles.smallLabel} size="small">
+              Owner Address
+            </Label>
             <Label>{nftData.address}</Label>
 
-            <span style={{ marginTop: '48px' }}></span>
+            <span style={{marginTop: '48px'}}></span>
             <Label size="large">Attributes</Label>
-            <span style={{ marginTop: '32px' }}></span>
+            <span style={{marginTop: '32px'}}></span>
 
             <Label size="small">Output Value</Label>
-            <InputLabel className={styles.input}>{nftData.output}
-            </InputLabel>
+            <InputLabel className={styles.input}>{nftData.output}</InputLabel>
 
             <Label size="small">Content Type</Label>
             <InputLabel className={styles.input}>
@@ -113,9 +116,7 @@ export const NFTPage = () => {
             </InputLabel>
 
             <Label size="small">Location</Label>
-            <InputLabel className={styles.input}>
-              {nftData.location}
-            </InputLabel>
+            <InputLabel className={styles.input}>{nftData.location}</InputLabel>
 
             <Label size="small">Genesis Transaction</Label>
             <InputLabel className={styles.input}>
