@@ -21,7 +21,6 @@ export async function fetchOrdinalUtxos(
       throw new Error(`Error fetching ordinal UTXOs: ${response.statusText}`);
     }
     const data = await response.json();
-    console.log(data)
     return {
       results: data.results,
       total: data.total
