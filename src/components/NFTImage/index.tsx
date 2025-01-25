@@ -1,12 +1,17 @@
-//@ts-nocheck
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
-export const NFTImage = ({data, contentType = ''}) => {
+interface NFTImageProps {
+  loading: boolean;
+  data: string;
+  contentType: string;
+}
+
+export const NFTImage: React.FC<NFTImageProps> = ({ data, contentType = '', loading }) => {
   console.log(contentType);
-  const [content, setContent] = useState(null);
-  const [formattedContent, setFormattedContent] = useState(null);
-  const [error, setError] = useState(null);
+  const [content, setContent] = useState<string>("");
+  const [formattedContent, setFormattedContent] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     if (typeof contentType == 'string' && contentType.startsWith('text')) {
@@ -22,8 +27,8 @@ export const NFTImage = ({data, contentType = ''}) => {
           } catch {
             setFormattedContent(text);
           }
-        } catch (err) {
-          setError(err.message);
+        } catch {
+          setError("Error fetching text");
         }
       };
 
@@ -34,8 +39,8 @@ export const NFTImage = ({data, contentType = ''}) => {
           const response = await fetch(data);
           const html = await response.text();
           setContent(html);
-        } catch (err) {
-          setError(err.message);
+        } catch {
+          setError("Error fetching text");
         }
       };
 
@@ -59,7 +64,7 @@ export const NFTImage = ({data, contentType = ''}) => {
     return (
       <div
         className={styles.htmlContent}
-        dangerouslySetInnerHTML={{__html: content}}
+        dangerouslySetInnerHTML={{ __html: content }}
       />
     );
   }

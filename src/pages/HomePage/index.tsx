@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { get } from 'lodash';
 import { Label, Input, Header, Button, ListItem, Loader } from '../../components';
 import { fetchOrdinalUtxos } from '../../api';
+import { OrdinalUtxo } from '../../types/ordinals';
 import styles from './index.module.css';
 
 const LIMIT = 12;
@@ -92,7 +93,7 @@ export const HomePage = () => {
 
         {!isLoading &&
           inscriptions &&
-          inscriptions.map((r: any) => {
+          inscriptions.map((r: OrdinalUtxo) => {
             const inscriptionId = get(r, ['inscriptions', 0, 'id']);
             if (!inscriptionId) return null;
             const firstChars = inscriptionId.substring(0, 8);

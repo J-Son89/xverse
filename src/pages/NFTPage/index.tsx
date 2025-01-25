@@ -1,26 +1,37 @@
-//@ts-nocheck
-import React, {useEffect, useState} from 'react';
-import {useSearchParams} from 'react-router-dom';
-import {fetchInscriptionDetails, fetchInscriptionContent} from '../../api';
-import {Header} from '../../components/Header';
-import {InputLabel} from '../../components/InputLabel';
-import {Divider} from '../../components/Divider';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { fetchInscriptionDetails, fetchInscriptionContent } from '../../api';
+import { Header } from '../../components/Header';
+import { InputLabel } from '../../components/InputLabel';
+import { Divider } from '../../components/Divider';
 import styles from './index.module.css';
-import {Label} from '../../components/Label';
-import {NFTImage} from '../../components/NFTImage';
-import {Loader} from '../../components/Loader';
+import { Label } from '../../components/Label';
+import { NFTImage } from '../../components/NFTImage';
+import { Loader } from '../../components/Loader';
+
+interface NFTData {
+  content_type: string;
+  number: string;
+  address: string;
+  output: string;
+  content_length: string;
+  genesis_tx_id: string;
+  [key: string]: any;
+}
+
+type ImageData = string
 
 export const NFTPage = () => {
   const [searchParams] = useSearchParams();
   const address = searchParams.get('address');
-  const id = searchParams.get('id');
+  const id = searchParams.get('id') || "";
 
-  const [nftData, setNftData] = useState(null);
-  const [_loading, setLoading] = useState(true);
-  const [_error, setError] = useState(null);
-  const [imageData, setImageData] = useState(null);
+  const [nftData, setNftData] = useState<NFTData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [imageData, setImageData] = useState<ImageData>("");
   const [imageLoading, setImageLoading] = useState(true);
-  const [_imageError, setImageError] = useState(null);
+  const [imageError, setImageError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!address) {
@@ -55,9 +66,10 @@ export const NFTPage = () => {
         const blob = await fetchInscriptionContent(id);
         const imageUrl = URL.createObjectURL(blob);
         setImageData(imageUrl);
-      } catch (err) {
-        setImageError(err.message);
-      } finally {
+      } catch {
+        setImageError('Error Loading Image')
+      }
+      finally {
         setImageLoading(false);
       }
     };
@@ -70,18 +82,16 @@ export const NFTPage = () => {
       <Header title={'Details'} backButton />
 
       {!nftData ? (
-        <Loader />
+        <Loader loading={false} />
       ) : (
         <>
-          {imageLoading ? (
-            <Loader />
-          ) : (
-            <NFTImage
-              className={styles.image}
-              data={imageData}
-              contentType={nftData.content_type}
-            ></NFTImage>
-          )}
+          (
+          <NFTImage
+            loading={imageLoading}
+            data={imageData}
+            contentType={nftData.content_type}
+          ></NFTImage>
+          )
 
           <div className={styles.pageContainer}>
             <Label size="large">{`Inscription ${nftData.number}`}</Label>
@@ -91,16 +101,16 @@ export const NFTPage = () => {
               Inscription ID
             </Label>
             <Label>{id}</Label>
-            <span style={{marginTop: '24px'}}></span>
+            <span style={{ marginTop: '24px' }}></span>
 
             <Label className={styles.smallLabel} size="small">
               Owner Address
             </Label>
             <Label>{nftData.address}</Label>
 
-            <span style={{marginTop: '48px'}}></span>
+            <span style={{ marginTop: '48px' }}></span>
             <Label size="large">Attributes</Label>
-            <span style={{marginTop: '32px'}}></span>
+            <span style={{ marginTop: '32px' }}></span>
 
             <Label size="small">Output Value</Label>
             <InputLabel className={styles.input}>{nftData.output}</InputLabel>
