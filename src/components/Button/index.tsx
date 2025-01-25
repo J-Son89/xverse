@@ -9,11 +9,17 @@ type ButtonType = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   disabled?: boolean;
 };
 
-export const Button: React.FC<ButtonType> = ({ className, disabled, buttonType = 'primary', ...props }) => (
-  <button {...props} className={cx(className, styles.button,
-    {
+export const Button: React.FC<ButtonType> = ({
+  className,
+  disabled,
+  buttonType = 'primary',
+  ...props
+}) => (
+  <button
+    {...props}
+    className={cx(className, styles.button, {
       [styles.secondary]: buttonType === 'secondary',
-      [styles.disabled]: disabled
-    }
-  )} />
+      [styles.disabled]: disabled,
+    })}
+  />
 );

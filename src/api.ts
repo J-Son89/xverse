@@ -1,4 +1,4 @@
-import { OrdinalUtxo } from './types/ordinals';
+import {OrdinalUtxo} from './types/ordinals';
 
 const BASE_URL = 'https://api-3.xverse.app/v1';
 const ORD_CONTENT_URL = 'https://ord.xverse.app/content';
@@ -23,7 +23,7 @@ export async function fetchOrdinalUtxos(
     const data = await response.json();
     return {
       results: data.results,
-      total: data.total
+      total: data.total,
     };
   } catch (error) {
     console.error(error);

@@ -1,10 +1,10 @@
 import React from 'react';
 
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { HomePage } from './pages/HomePage';
-import { NFTPage } from './pages/NFTPage';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {HomePage} from './pages/HomePage';
+import {NFTPage} from './pages/NFTPage';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 

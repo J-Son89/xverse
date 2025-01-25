@@ -29,7 +29,6 @@
 .placeholder {
   color: var(--white);
   background-color: var(--highlight-color);
-
 }
 
 .error {

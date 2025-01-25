@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './index.module.css';
-import { ClipLoader } from 'react-spinners';
+import {ClipLoader} from 'react-spinners';
 import cx from 'classnames';
-import parse from 'html-react-parser';
 import DOMPurify from 'dompurify';
-import { json } from 'react-router';
 
 interface NFTImageProps {
   loading: boolean;
@@ -12,10 +10,14 @@ interface NFTImageProps {
   contentType: string;
 }
 
-export const NFTImage: React.FC<NFTImageProps> = ({ data, contentType, loading }) => {
-  const [content, setContent] = useState<string>("");
-  const [formattedContent, setFormattedContent] = useState<string>("");
-  const [error, setError] = useState<string>("");
+export const NFTImage: React.FC<NFTImageProps> = ({
+  data,
+  contentType,
+  loading,
+}) => {
+  const [content, setContent] = useState<string>('');
+  const [formattedContent, setFormattedContent] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const [innerLoading, setInnerLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -32,10 +34,9 @@ export const NFTImage: React.FC<NFTImageProps> = ({ data, contentType, loading }
             setFormattedContent(text);
           }
         } catch {
-          setError("Error fetching text");
-        }
-        finally {
-          setInnerLoading(false)
+          setError('Error fetching text');
+        } finally {
+          setInnerLoading(false);
         }
       };
 
@@ -49,34 +50,34 @@ export const NFTImage: React.FC<NFTImageProps> = ({ data, contentType, loading }
           const parser = new DOMParser();
           const doc = parser.parseFromString(sanitizedHtml, 'text/html');
           setContent(doc.body.innerHTML || sanitizedHtml);
-          setInnerLoading(false)
-
+          setInnerLoading(false);
         } catch {
-          setError("Error fetching HTML");
-        }
-        finally {
-          setInnerLoading(false)
+          setError('Error fetching HTML');
+        } finally {
+          setInnerLoading(false);
         }
       };
 
       fetchHTMLContent();
-    } else if (typeof contentType == 'string' && contentType.startsWith('image')) {
+    } else if (
+      typeof contentType == 'string' &&
+      contentType.startsWith('image')
+    ) {
       setContent(data);
-      setInnerLoading(false)
-
-    }
-    else {
+      setInnerLoading(false);
+    } else {
       setTimeout(() => {
-        setInnerLoading(false)
+        setInnerLoading(false);
       }, 1000);
     }
-
   }, [data, contentType]);
 
   if (loading || innerLoading) {
-    return <div className={cx(styles.base, styles.loading)}>
-      <ClipLoader color="#5A5AFF" size={50} />
-    </div>;
+    return (
+      <div className={cx(styles.base, styles.loading)}>
+        <ClipLoader color="#5A5AFF" size={50} />
+      </div>
+    );
   }
 
   if (error) {
@@ -87,13 +88,17 @@ export const NFTImage: React.FC<NFTImageProps> = ({ data, contentType, loading }
     return (
       <div
         className={cx(styles.base, styles.htmlContent)}
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{__html: content}}
       />
     );
   }
 
   if (typeof contentType == 'string' && contentType.startsWith('text')) {
-    return <pre className={cx(styles.base, styles.textContent)}>{formattedContent}</pre>;
+    return (
+      <pre className={cx(styles.base, styles.textContent)}>
+        {formattedContent}
+      </pre>
+    );
   }
 
   if (typeof contentType == 'string' && contentType.startsWith('image')) {
@@ -107,5 +112,9 @@ export const NFTImage: React.FC<NFTImageProps> = ({ data, contentType, loading }
     );
   }
 
-  return <div className={cx(styles.base, styles.unsupported)}>Unsupported content type</div>;
+  return (
+    <div className={cx(styles.base, styles.unsupported)}>
+      Unsupported content type
+    </div>
+  );
 };

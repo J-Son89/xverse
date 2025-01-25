@@ -9,6 +9,6 @@ export interface OrdinalUtxo {
   vout: number;
   block_height: number;
   value: number;
-  sats: any[]; 
+  sats: any[];
   inscriptions: Inscription[];
 }

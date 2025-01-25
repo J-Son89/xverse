@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { fetchInscriptionDetails, fetchInscriptionContent } from '../../api';
-import { Header, InputLabel, Divider, Label, NFTImage, Loader } from '../../components';
+import React, {useEffect, useState} from 'react';
+import {useSearchParams} from 'react-router-dom';
+import {fetchInscriptionDetails, fetchInscriptionContent} from '../../api';
+import {Header, InputLabel, Divider, Label, NFTImage} from '../../components';
 import styles from './index.module.css';
 
 interface NFTData {
@@ -14,39 +14,39 @@ interface NFTData {
   location: string;
 }
 
-type ImageData = string
+type ImageData = string;
 
 export const NFTPage = () => {
   const [searchParams] = useSearchParams();
   const address = searchParams.get('address');
-  const id = searchParams.get('id') || "";
+  const id = searchParams.get('id') || '';
 
   const [nftData, setNftData] = useState<NFTData>({
-    content_type: "",
-    number: "",
-    address: "",
-    output: "",
-    content_length: "",
-    genesis_tx_id: "",
-    location: ""
+    content_type: '',
+    number: '',
+    address: '',
+    output: '',
+    content_length: '',
+    genesis_tx_id: '',
+    location: '',
   });
-  const [error, setError] = useState("");
-  const [imageData, setImageData] = useState<ImageData>("");
+  const [error, setError] = useState('');
+  const [imageData, setImageData] = useState<ImageData>('');
   const [imageLoading, setImageLoading] = useState(true);
 
   useEffect(() => {
     if (error) {
       setNftData({
-        content_type: "",
-        number: "",
-        address: "",
-        output: "",
-        content_length: "",
-        genesis_tx_id: "",
-        location: ""
-      })
+        content_type: '',
+        number: '',
+        address: '',
+        output: '',
+        content_length: '',
+        genesis_tx_id: '',
+        location: '',
+      });
     }
-  }, [error])
+  }, [error]);
 
   useEffect(() => {
     if (!address) {
@@ -78,9 +78,8 @@ export const NFTPage = () => {
         const imageUrl = URL.createObjectURL(blob);
         setImageData(imageUrl);
       } catch {
-        setImageData("error")
-      }
-      finally {
+        setImageData('error');
+      } finally {
         setImageLoading(false);
       }
     };
@@ -99,7 +98,6 @@ export const NFTPage = () => {
           contentType={nftData.content_type}
         ></NFTImage>
 
-
         <div className={styles.pageContainer}>
           <Label size="large">{`Inscription ${nftData.number}`}</Label>
           <Divider />
@@ -107,37 +105,41 @@ export const NFTPage = () => {
           <Label className={styles.smallLabel} size="small">
             Inscription ID
           </Label>
-          <Label>{id || "Null"}</Label>
-          <span style={{ marginTop: '24px' }}></span>
+          <Label>{id || 'Null'}</Label>
+          <span style={{marginTop: '24px'}}></span>
 
           <Label className={styles.smallLabel} size="small">
             Owner Address
           </Label>
-          <Label>{nftData.address || "Null"}</Label>
+          <Label>{nftData.address || 'Null'}</Label>
 
-          <span style={{ marginTop: '48px' }}></span>
+          <span style={{marginTop: '48px'}}></span>
           <Label size="large">Attributes</Label>
-          <span style={{ marginTop: '32px' }}></span>
+          <span style={{marginTop: '32px'}}></span>
 
           <Label size="small">Output Value</Label>
-          <InputLabel className={styles.input}>{nftData.output || "Null"}</InputLabel>
+          <InputLabel className={styles.input}>
+            {nftData.output || 'Null'}
+          </InputLabel>
 
           <Label size="small">Content Type</Label>
           <InputLabel className={styles.input}>
-            {nftData.content_type || "Null"}
+            {nftData.content_type || 'Null'}
           </InputLabel>
 
           <Label size="small">Content Length</Label>
           <InputLabel className={styles.input}>
-            {nftData.content_length || "Null"}
+            {nftData.content_length || 'Null'}
           </InputLabel>
 
           <Label size="small">Location</Label>
-          <InputLabel className={styles.input}>{nftData.location || "Null"}</InputLabel>
+          <InputLabel className={styles.input}>
+            {nftData.location || 'Null'}
+          </InputLabel>
 
           <Label size="small">Genesis Transaction</Label>
           <InputLabel className={styles.input}>
-            {nftData.genesis_tx_id || "Null"}
+            {nftData.genesis_tx_id || 'Null'}
           </InputLabel>
         </div>
       </>
