@@ -1,9 +1,9 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import cx from 'classnames';
 import { useQuery } from '@tanstack/react-query';
 import { get } from 'lodash';
-import { Label, Input, Header, Button, ListItem } from '../../components';
+import { Label, Input, Header, Button, ListItem, Loader } from '../../components';
 import { fetchOrdinalUtxos } from '../../api';
 import styles from './index.module.css';
 
@@ -20,7 +20,7 @@ export const HomePage = () => {
 
   const queryKey = useMemo(() => ['ordinalUtxos', address, offset.current], [address, offset]);
 
-  const { data: inscriptions, isLoading, refetch } = useQuery(
+  const { data: inscriptions, isLoading, isFetching, refetch } = useQuery(
     queryKey,
     async () => {
       const response = await fetchOrdinalUtxos(address, offset.current, LIMIT);
@@ -42,6 +42,7 @@ export const HomePage = () => {
       },
     }
   );
+
 
   const handleLookUp = () => {
     if (address.trim()) {
@@ -65,6 +66,10 @@ export const HomePage = () => {
     refetch();
   };
 
+  useEffect(() => {
+    refetch();
+  }, [])
+
   return (
     <>
       <Header title={'Ordinal Inscription Lookup'} />
@@ -82,7 +87,7 @@ export const HomePage = () => {
         >
           Look up
         </Button>
-
+        <Loader loading={isFetching} />
         {!isLoading && inscriptions && <Label>Results</Label>}
 
         {!isLoading &&
