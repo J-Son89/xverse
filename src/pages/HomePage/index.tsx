@@ -1,15 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Header } from '../../components/Header';
-import styles from './index.module.css';
-import { Label } from '../../components/Label';
-import { Input } from '../../components/Input';
-import { Button } from '../../components/Button';
-import { useQuery } from '@tanstack/react-query';
-import { fetchOrdinalUtxos } from '../../api';
-import { ListItem } from '../../components/ListItem';
-import { get } from 'lodash';
 import cx from 'classnames';
+import { useQuery } from '@tanstack/react-query';
+import { get } from 'lodash';
+import { Label, Input, Header, Button, ListItem, Loader } from '../../components';
+import { fetchOrdinalUtxos } from '../../api';
+import styles from './index.module.css';
 
 const LIMIT = 12;
 
@@ -22,9 +18,7 @@ export const HomePage = () => {
 
   const [address, setAddress] = useState(addressFromParams);
   const [offset, setOffset] = useState(parseInt(offsetFromParams, 10));
-
   const queryKey = useMemo(() => ['ordinalUtxos', address, offset], [address, offset]);
-
 
   const { data, isLoading, isFetching, refetch } = useQuery(
     queryKey,
@@ -69,12 +63,11 @@ export const HomePage = () => {
         <Button
           disabled={isFetching || address === ''}
           onClick={handleLookUp}
-          className={cx(styles.loadMore, styles.button)}
+          className={styles.button}
         >
           Look up
         </Button>
-
-        {isLoading && <Label>Loading...</Label>}
+        <Loader loading={( isFetching)} />
 
         {!isLoading && data && <Label>Results</Label>}
 
@@ -96,7 +89,7 @@ export const HomePage = () => {
             );
           })}
 
-        <div className={styles.paginationButtons}>
+        {!isLoading && <div className={styles.paginationButtons}>
           <Button
             onClick={handleLoadPrevious}
             disabled={isFetching || offset === 0}
@@ -114,7 +107,7 @@ export const HomePage = () => {
           >
             {isFetching ? 'Loading...' : 'Load Next'}
           </Button>
-        </div>
+        </div>}
       </div>
     </>
   );

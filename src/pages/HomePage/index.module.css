@@ -46,10 +46,6 @@
   display: none;
 }
 
-.loadMore {
-  margin-bottom: 10px;
-}
-
 .paginationButtons {
   width: -webkit-fill-available;
   display: flex;

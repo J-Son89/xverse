@@ -1,4 +1,19 @@
 import React from 'react';
-import {Label} from '../Label';
+import { ClipLoader } from 'react-spinners';
+import styles from './index.module.css';
 
-export const Loader = () => <Label>... Loading</Label>;
+interface LoaderProps {
+    loading: boolean;
+}
+
+export const Loader: React.FC<LoaderProps> = ({ loading }) => {
+    if (!loading) return null;
+
+    return (
+        <div className={styles.loader}>
+            <ClipLoader color="#5A5AFF" size={50} />
+        </div>
+    );
+};
+
+export default Loader;
