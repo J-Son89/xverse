@@ -52,6 +52,7 @@
   align-items: space-between;
   justify-content: space-between;
   margin: 0 auto;
+  align-self: flex-end;
 }
 
 .previousButton {

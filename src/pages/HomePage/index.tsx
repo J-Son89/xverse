@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import cx from 'classnames';
 import { useQuery } from '@tanstack/react-query';
 import { get } from 'lodash';
-import { Label, Input, Header, Button, ListItem, Loader } from '../../components';
+import { Label, Input, Header, Button, ListItem } from '../../components';
 import { fetchOrdinalUtxos } from '../../api';
 import styles from './index.module.css';
 
@@ -12,43 +12,59 @@ const LIMIT = 12;
 export const HomePage = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-
   const addressFromParams = searchParams.get('address') || '';
   const offsetFromParams = searchParams.get('offset') || '0';
-
   const [address, setAddress] = useState(addressFromParams);
-  const [offset, setOffset] = useState(parseInt(offsetFromParams, 10));
-  const queryKey = useMemo(() => ['ordinalUtxos', address, offset], [address, offset]);
+  const offset = useRef(parseInt(offsetFromParams, 10));
+  const [total, setTotal] = useState<number | null>(null);
 
-  const { data, isLoading, isFetching, refetch } = useQuery(
+  const queryKey = useMemo(() => ['ordinalUtxos', address, offset.current], [address, offset]);
+
+  const { data: inscriptions, isLoading, refetch } = useQuery(
     queryKey,
-    () => fetchOrdinalUtxos(address, offset, LIMIT),
+    async () => {
+      const response = await fetchOrdinalUtxos(address, offset.current, LIMIT);
+      setTotal(response.total);
+
+      const filteredInscriptions = response.results.filter((r: any) => {
+        const inscriptionId = get(r, ['inscriptions', 0, 'id']);
+        return !!inscriptionId
+      })
+      return filteredInscriptions
+    },
     {
-      enabled: !!address,
-      keepPreviousData: false,
+      enabled: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
       onSuccess: () => {
-        setSearchParams({ address, offset: offset.toString() });
+        setSearchParams({ address, offset: offset.current.toString() });
       },
     }
   );
 
   const handleLookUp = () => {
     if (address.trim()) {
-      setOffset(0);
+      offset.current = 0;
+      setSearchParams({ address, offset: "0" });
       refetch();
     }
   };
 
   const handleLoadNext = () => {
-    setOffset((prevOffset) => prevOffset + LIMIT);
+    const newOffset = offset.current + LIMIT
+    offset.current = newOffset
+    setSearchParams({ address, offset: newOffset.toString() })
     refetch();
   };
 
   const handleLoadPrevious = () => {
-    setOffset((prevOffset) => Math.max(0, prevOffset - LIMIT));
+    const newOffset = Math.max(0, offset.current - LIMIT)
+    offset.current = newOffset
+    setSearchParams({ address, offset: newOffset.toString() })
     refetch();
   };
-  console.log(offset, "OFFSET", typeof offset)
+
   return (
     <>
       <Header title={'Ordinal Inscription Lookup'} />
@@ -61,19 +77,17 @@ export const HomePage = () => {
           value={address}
         />
         <Button
-          disabled={isFetching || address === ''}
           onClick={handleLookUp}
           className={styles.button}
         >
           Look up
         </Button>
-        <Loader loading={( isFetching)} />
 
-        {!isLoading && data && <Label>Results</Label>}
+        {!isLoading && inscriptions && <Label>Results</Label>}
 
         {!isLoading &&
-          data &&
-          data.map((r) => {
+          inscriptions &&
+          inscriptions.map((r: any) => {
             const inscriptionId = get(r, ['inscriptions', 0, 'id']);
             if (!inscriptionId) return null;
             const firstChars = inscriptionId.substring(0, 8);
@@ -89,25 +103,27 @@ export const HomePage = () => {
             );
           })}
 
-        {!isLoading && <div className={styles.paginationButtons}>
-          <Button
-            onClick={handleLoadPrevious}
-            disabled={isFetching || offset === 0}
-            buttonType="secondary"
-            className={cx(styles.previousButton, styles.button)}
-          >
-            Load Previous
-          </Button>
+        {(
+          <div className={styles.paginationButtons}>
+            <Button
+              onClick={handleLoadPrevious}
+              disabled={!address || offset.current === 0}
+              buttonType="secondary"
+              className={cx(styles.previousButton, styles.button)}
+            >
+              Load Previous
+            </Button>
 
-          <Button
-            onClick={handleLoadNext}
-            disabled={isFetching || (data && data.length < LIMIT)}
-            buttonType="secondary"
-            className={cx(styles.nextButton, styles.button)}
-          >
-            {isFetching ? 'Loading...' : 'Load Next'}
-          </Button>
-        </div>}
+            <Button
+              onClick={handleLoadNext}
+              disabled={!address || (offset.current === 0 && !inscriptions) || (total !== null && offset.current + LIMIT >= total) || (Array.isArray(inscriptions) && inscriptions.length < LIMIT)}
+              buttonType="secondary"
+              className={cx(styles.nextButton, styles.button)}
+            >
+              Load Next
+            </Button>
+          </div>
+        )}
       </div>
     </>
   );
