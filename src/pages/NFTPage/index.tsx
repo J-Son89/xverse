@@ -141,6 +141,7 @@ export const NFTPage = () => {
           <InputLabel className={styles.input}>
             {nftData.genesis_tx_id || 'Null'}
           </InputLabel>
+          <span style={{marginTop: '12px'}}></span>
         </div>
       </>
     </>

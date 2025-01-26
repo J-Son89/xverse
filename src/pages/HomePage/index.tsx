@@ -75,7 +75,10 @@ export const HomePage = () => {
   };
 
   useEffect(() => {
-    refetch();
+    if (!!address) {
+      refetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refetch]);
 
   return (
