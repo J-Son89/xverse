@@ -1,3 +1,7 @@
+## Try out a deplyed version of the app here
+
+[Deployed App](https://xjamie-68d684c0d92d.herokuapp.com/).
+
 Standard set up of a React App.
 
 ## To start developing
@@ -12,7 +16,7 @@ and then
 
 ### `yarn test`
 
-## lint and typescheck
+## lint and type check
 
 ### `yarn test`
 
